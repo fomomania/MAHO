@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>나와 계약해서 마법전사가 되어줘!</title>
+<style>
+:root{
+  --bg:#fff4f8;
+  --card:#fffafd;
+  --white:#ffffff;
+  --text:#3f3b3d;
+  --muted:#857b80;
+  --pink:#d94f83;
+  --pink-soft:#f3c8d8;
+  --mint:#55bfae;
+  --mint-soft:#d9f2ed;
+  --line:#f1d5e0;
+  --shadow:0 12px 32px rgba(177,92,126,.10);
+  --radius:24px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 10% 5%,rgba(255,255,255,.9),transparent 24%),
+    radial-gradient(circle at 90% 20%,rgba(217,242,237,.48),transparent 22%),
+    var(--bg);
+  font-family:"Pretendard","Noto Sans KR",Arial,sans-serif;
+  line-height:1.7;
+}
+a{color:inherit;text-decoration:none}
+button{font:inherit}
+.container{width:min(1080px,calc(100% - 32px));margin:auto}
+
+header{
+  position:relative;
+  overflow:hidden;
+  min-height:520px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:80px 20px 70px;
+  background:
+    radial-gradient(circle at 20% 30%,rgba(255,255,255,.9),transparent 18%),
+    radial-gradient(circle at 80% 70%,rgba(217,242,237,.55),transparent 20%),
+    linear-gradient(145deg,#ffeaf2,#fff7fa 55%,#eefaf7);
+}
+header:before,header:after{
+  content:"✦";
+  position:absolute;
+  color:rgba(217,79,131,.24);
+  font-size:32px;
+}
+header:before{top:80px;left:12%;transform:rotate(-15deg)}
+header:after{right:13%;bottom:100px;color:rgba(85,191,174,.3);font-size:24px}
+.hero-inner{position:relative;z-index:1}
+.kicker{
+  display:inline-block;
+  color:var(--pink);
+  background:rgba(255,255,255,.75);
+  border:1px solid var(--pink-soft);
+  padding:6px 15px;
+  border-radius:999px;
+  font-size:13px;
+  letter-spacing:.08em;
+  margin-bottom:18px;
+}
+h1{
+  margin:0;
+  font-size:clamp(34px,7vw,64px);
+  line-height:1.2;
+  letter-spacing:-.04em;
+  color:var(--text);
+}
+h1 span{color:var(--pink)}
+.hero-desc{
+  max-width:620px;
+  margin:24px auto 0;
+  color:var(--muted);
+  font-size:16px;
+}
+.hero-nav{
+  display:flex;justify-content:center;gap:9px;flex-wrap:wrap;
+  margin-top:30px;
+}
+.hero-nav a{
+  background:#fff;
+  border:1px solid var(--line);
+  padding:8px 15px;
+  border-radius:999px;
+  font-size:13px;
+  color:#6c6267;
+  transition:.2s;
+}
+.hero-nav a:hover{color:var(--pink);transform:translateY(-2px)}
+
+main{padding:70px 0 100px}
+section{margin-bottom:78px}
+.section-title{
+  display:flex;align-items:center;gap:12px;
+  margin:0 0 10px;
+  font-size:28px;
+  letter-spacing:-.03em;
+}
+.section-title:before{
+  content:"✦";
+  color:var(--pink);
+  font-size:19px;
+}
+.section-lead{color:var(--muted);margin:0 0 28px;font-size:14px}
+.card{
+  background:rgba(255,250,253,.9);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+}
+.intro{padding:30px}
+.intro strong{color:var(--pink)}
+
+.info-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:16px;
+}
+.info-card{padding:23px}
+.info-card h3{margin:0 0 12px;color:var(--pink);font-size:18px}
+.info-card p{margin:0;font-size:14px}
+.info-card.mint h3{color:var(--mint)}
+ul.clean{list-style:none;padding:0;margin:0}
+ul.clean li{padding:5px 0 5px 15px;position:relative;font-size:14px}
+ul.clean li:before{content:"·";position:absolute;left:0;color:var(--pink);font-weight:bold}
+
+.characters{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:22px;
+}
+.char-card{overflow:hidden}
+.char-top{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:300px;
+  background:linear-gradient(135deg,#fff0f5,#effaf7);
+}
+.char-image{
+  width:100%;
+  height:300px;
+  object-fit:contain;
+  object-position:center center;
+  display:block;
+  margin:0 auto;
+}
+.char-body{padding:22px}
+.char-name{font-size:24px;font-weight:800;margin:0;color:var(--text)}
+.char-role{font-size:12px;color:var(--mint);margin-top:1px}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 14px}
+.tag{
+  font-size:11px;padding:3px 9px;border-radius:999px;
+  background:var(--mint-soft);color:#398f82;
+}
+.char-card .tags .tag,
+.char-card .tags .character-tag{
+  background:var(--char-soft);
+  color:var(--char-color);
+  border:1px solid var(--char-border);
+  font-size:.78rem;
+  padding:5px 10px;
+  border-radius:999px;
+  font-weight:800;
+}
+.tag.pink{background:#fde3ec;color:#b33d69}
+.char-desc{font-size:13px;color:#655c60;margin:0 0 15px}
+.details{border-top:1px dashed var(--line);padding-top:12px}
+.detail-row{display:grid;grid-template-columns:42px 1fr;gap:9px;font-size:12px;padding:3px 0}
+.detail-row b{color:var(--pink)}
+.switcher{
+  display:flex;gap:7px;padding:10px;
+  background:rgba(255,255,255,.75);
+  border-bottom:1px solid var(--line);
+}
+.switcher button{
+  flex:1;border:1px solid var(--line);background:#fff;
+  color:#777;border-radius:12px;padding:7px;cursor:pointer;font-size:12px;
+}
+.switcher button.active{background:var(--pink);border-color:var(--pink);color:#fff}
+.switcher button:last-child.active{background:var(--mint);border-color:var(--mint)}
+
+.world-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.world-card{padding:22px}
+.world-card.full{grid-column:1/-1}
+.world-card h3{margin:0 0 8px;color:var(--pink);font-size:17px}
+.world-card p{font-size:13px;margin:0;color:#625a5e}
+
+.prologues{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.prologue{padding:24px;position:relative;overflow:hidden}
+.prologue:after{
+  content:"♡";position:absolute;right:18px;top:8px;
+  color:rgba(217,79,131,.13);font-size:60px;
+}
+.prologue h3{margin:0 0 10px;color:var(--pink);font-size:17px}
+.prologue p{margin:0;color:#6d6468;font-size:13px}
+.prologue:nth-child(2) h3{color:var(--mint)}
+
+.hud{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:24px;
+  font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
+  font-size:13px;
+  box-shadow:var(--shadow);
+}
+.hud .pink{color:var(--pink)}
+.hud .mint{color:var(--mint)}
+.note{
+  margin-top:15px;padding:16px 18px;
+  background:#fff0f5;border-left:3px solid var(--pink);
+  border-radius:12px;font-size:13px;color:#695e63;
+}
+.note.mint{background:#eefaf7;border-color:var(--mint)}
+
+.commands{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.command{
+  padding:17px 19px;background:#fff;border:1px solid var(--line);
+  border-radius:16px;
+}
+.command code{
+  color:var(--pink);font-weight:800;font-size:14px;
+  background:#fff0f5;padding:4px 8px;border-radius:8px;
+}
+.command p{margin:8px 0 0;font-size:13px;color:#6a6165}
+
+footer{
+  text-align:center;padding:35px 20px 50px;
+  color:#a28e96;font-size:12px;
+}
+@media(max-width:760px){
+  .info-grid,.world-grid,.characters,.commands{grid-template-columns:1fr}
+  .prologues{grid-template-columns:1fr}
+  .world-card.full{grid-column:auto}
+  header{min-height:470px}
+  .char-top{min-height:0}
+  .char-image{min-height:240px}
+  main{padding-top:48px}
+}
+
+/* ===== v2 visual polish ===== */
+
+/* Character color system */
+.char-card {
+  --char-color: #D94F83;
+  --char-soft: #fff0f6;
+  --char-border: #f3c8d8;
+  border-top: 4px solid var(--char-color) !important;
+}
+.char-card[data-char="lulu"] { --char-color:#D8AA24; --char-soft:#FFF8D9; --char-border:#F0D98A; }
+.char-card[data-char="sern"] { --char-color:#4FA8D8; --char-soft:#EAF8FF; --char-border:#B9E2F5; }
+.char-card[data-char="ple"] { --char-color:#C99B62; --char-soft:#FFF5E7; --char-border:#E7C99F; }
+.char-card[data-char="pico"] { --char-color:#35B9A5; --char-soft:#E8FAF6; --char-border:#A9E3D8; }
+.char-card[data-char="momo"] { --char-color:#E79A8E; --char-soft:#FFF0EC; --char-border:#F2C5BD; }
+.char-card[data-char="mukhyun"] { --char-color:#8561B8; --char-soft:#F3ECFC; --char-border:#CDB9E6; }
+
+.char-card .character-tags {
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-top:12px;
+}
+.char-card .character-tag {
+  display:inline-flex;
+  align-items:center;
+  padding:5px 10px;
+  border-radius:999px;
+  background:var(--char-soft);
+  color:var(--char-color);
+  border:1px solid var(--char-border);
+  font-size:.78rem;
+  font-weight:800;
+}
+.char-card .character-name {
+  margin-bottom: 0 !important;
+}
+.char-card .character-accent {
+  color:var(--char-color);
+}
+
+/* World guide */
+.world-intro {
+  position:relative;
+  overflow:hidden;
+  margin-bottom:22px;
+  padding:30px 32px;
+  border:1px solid #f3c8d8;
+  border-radius:26px;
+  background:
+    radial-gradient(circle at 90% 15%, rgba(85,191,174,.14), transparent 28%),
+    radial-gradient(circle at 8% 85%, rgba(217,79,131,.10), transparent 30%),
+    #fffafd;
+  box-shadow:0 12px 30px rgba(115,76,95,.06);
+}
+.world-intro::after {
+  content:"✦";
+  position:absolute;
+  right:28px;
+  bottom:15px;
+  color:#D94F83;
+  opacity:.28;
+  font-size:2.8rem;
+}
+.world-kicker {
+  display:inline-block;
+  margin-bottom:8px;
+  color:#D94F83;
+  font-size:.76rem;
+  font-weight:900;
+  letter-spacing:.14em;
+}
+.world-intro h3 {
+  margin:0 0 10px;
+  font-size:1.35rem;
+}
+.world-intro p {
+  margin:0;
+  max-width:760px;
+  color:#655c61;
+  line-height:1.85;
+}
+.world-guide {
+  display:grid !important;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:16px !important;
+}
+.world-card {
+  position:relative;
+  min-height:190px;
+  padding:24px 24px 22px !important;
+  border:1px solid #f1dbe4 !important;
+  border-radius:24px !important;
+  background:#fff !important;
+  box-shadow:0 9px 24px rgba(115,76,95,.055) !important;
+  overflow:hidden;
+  transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.world-card:hover {
+  transform:translateY(-3px);
+  box-shadow:0 14px 30px rgba(115,76,95,.09) !important;
+  border-color:#efc8d8 !important;
+}
+.world-card::before {
+  content:"";
+  position:absolute;
+  left:0;
+  top:0;
+  bottom:0;
+  width:5px;
+  background:var(--world-accent,#D94F83);
+}
+.world-card.light { --world-accent:#55BFAE; }
+.world-card.dark { --world-accent:#8561B8; }
+.world-card.magic { --world-accent:#D94F83; }
+.world-card.shining {
+  grid-column:1 / -1;
+  background:
+    radial-gradient(circle at 88% 15%, rgba(85,191,174,.12), transparent 28%),
+    radial-gradient(circle at 10% 90%, rgba(217,79,131,.09), transparent 30%),
+    #fff !important;
+}
+.world-card-head {
+  display:flex;
+  align-items:center;
+  gap:11px;
+  margin-bottom:12px;
+}
+.world-number {
+  display:grid;
+  place-items:center;
+  width:34px;
+  height:34px;
+  flex:0 0 34px;
+  border-radius:12px;
+  background:color-mix(in srgb, var(--world-accent) 12%, white);
+  color:var(--world-accent);
+  font-size:.76rem;
+  font-weight:900;
+}
+.world-card h3 {
+  margin:0 !important;
+  color:#423b3f;
+  font-size:1.05rem;
+}
+.world-card p {
+  margin:0 !important;
+  color:#665d62;
+  line-height:1.8;
+  white-space:pre-line;
+}
+.world-card .world-mini {
+  display:inline-block;
+  margin-top:13px;
+  color:var(--world-accent);
+  font-size:.74rem;
+  font-weight:900;
+  letter-spacing:.04em;
+}
+@media (max-width: 720px) {
+  .world-guide { grid-template-columns:1fr !important; }
+  .world-card.shining { grid-column:auto; }
+  .world-intro { padding:24px 22px; }
+}
+
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hero-inner">
+    <div class="kicker">MAGICAL WARRIOR · ROMANTIC COMEDY</div>
+    <h1>나와 계약해서<br><span>마법전사가 되어줘!</span></h1>
+    <p class="hero-desc">
+      어느 날, 평범한 당신 앞에 나타난 귀여운 마스코트들.<br>
+      그런데 인간 모습으로 변신하니 전부 미남이다?!<br>
+      계약자를 구하기 위한 빛과 어둠의 좌충우돌 모집 전쟁이 시작된다!
+    </p>
+    <nav class="hero-nav">
+      <a href="#characters">인물 소개</a>
+      <a href="#world">세계관</a>
+      <a href="#prologue">프롤로그</a>
+      <a href="#hud">HUD</a>
+      <a href="#commands">단축어</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+
+<section id="intro">
+  <h2 class="section-title">작품 소개</h2>
+  <p class="section-lead">귀엽고 수상한 마스코트들과 함께하는 마법전사 모집 로맨스코미디</p>
+  <div class="card intro">
+    <strong>계약자를 구해야 한다!</strong><br>
+빛과 어둠의 유치찬란한 마법전사 스카우트 전쟁에 휘말린 당신!<br>
+무급 봉사와 다름없는 노동 조건에도 굴하지 않고 미남계부터 거짓말, PPT까지 동원해 당신을 모시려는 엉뚱한 마스코트들의 영업 공세가 시작됩니다.<br>
+당신을 노리는 수상한 귀여움 속에서, 과연 당신은 누구의 손을 잡고 세상(그리고 자신의 평화)을 구하게 될까요?<br>
+달콤하고 발랄하게 꼬여가는 로맨틱 코미디 마법 대소동!<br>
+  </div>
+</section>
+
+<section id="characters">
+  <h2 class="section-title">인물 소개</h2>
+  <p class="section-lead"> 각 카드의 HUMAN / MASCOT 버튼을 누르면 이미지가 바뀝니다.</p>
+  <div class="characters" id="characterList"></div>
+</section>
+
+<section id="world" class="section">
+  <div class="section-heading">
+    <span class="eyebrow">WORLD GUIDE</span>
+    <h2>세계관</h2>
+    <p>평범한 일상에 마법이 스며들기 시작한 세계. 빛과 어둠, 그리고 계약으로 이어지는 이야기.</p>
+  </div>
+
+  <div class="world-intro">
+    <span class="world-kicker">✦ MAGIC EXISTS IN EVERYDAY EMOTIONS</span>
+    <h3>마법은 인간의 감정에서 태어난다</h3>
+    <p>긍정적인 감정은 빛의 마법으로, 부정적인 감정은 어둠의 마법으로 발현된다.
+    아주 오래전 사소한 사건을 계기로 빛과 어둠은 사이가 틀어졌고, 지금은 서로의 계약자를 두고 유치한 경쟁을 벌이고 있다.</p>
+  </div>
+
+  <div class="world-guide">
+    <article class="world-card magic">
+      <div class="world-card-head"><span class="world-number">01</span><h3>마법전사</h3></div>
+      <p>마스코트와 계약해 마법을 사용하는 인간. 성별과 관계없이 마법전사라 부르며, 보통 여성은 마법소녀, 남성은 마법소년으로 호칭한다.</p>
+      <span class="world-mini">계약 · 변신 · 마법무기</span>
+    </article>
+
+    <article class="world-card light">
+      <div class="world-card-head"><span class="world-number">02</span><h3>빛의 진영</h3></div>
+      <p>긍정적인 감정에서 태어난 마법을 사용한다. 인간과 계약해 마물을 퇴치하고 사람들을 보호하지만, 무엇보다 계약자 모집에 진심이다.</p>
+      <span class="world-mini">긍정적 감정 · 마물 퇴치</span>
+    </article>
+
+    <article class="world-card dark">
+      <div class="world-card-head"><span class="world-number">03</span><h3>어둠 진영</h3></div>
+      <p>부정적인 감정을 이용해 마물을 만든다. 빛에게 질 수 없다는 이유로 인간과 계약하기 시작했으며, 현재도 빛과 계약자를 두고 경쟁한다.</p>
+      <span class="world-mini">부정적 감정 · 마물 생성</span>
+    </article>
+
+    <article class="world-card magic">
+      <div class="world-card-head"><span class="world-number">04</span><h3>마스코트</h3></div>
+      <p>샤이닝월드에서 살아가는 작은 마법 생명체. 지원자 급감으로 인간형 변신 마법을 익혀 직접 계약자를 모집하고 있으며, 미남계도 중요한 모집 전략이다.</p>
+      <span class="world-mini">마법 생명체 · 인간형 변신</span>
+    </article>
+
+    <article class="world-card light">
+      <div class="world-card-head"><span class="world-number">05</span><h3>계약 장신구</h3></div>
+      <p>마스코트의 상징색과 고유 형태를 가진 보석이 들어간 계약의 증표. 목걸이·팔찌·귀걸이·브로치 등 계약자의 취향에 따라 형태가 정해진다.</p>
+      <span class="world-mini">계약의 증표 · 마력 안정화</span>
+    </article>
+
+    <article class="world-card shining">
+      <div class="world-card-head"><span class="world-number">06</span><h3>샤이닝월드</h3></div>
+      <p>마스코트들의 고향인 마법세계. 빛과 어둠 양쪽의 마스코트가 함께 살아가며, 어둠 진영의 영역에는 빛이 거의 들지 않는다.</p>
+      <span class="world-mini">THE MAGIC WORLD</span>
+    </article>
+  </div>
+</section>
+
+<section id="prologue">
+  <h2 class="section-title">프롤로그</h2>
+  <p class="section-lead">원하는 시작점을 골라 이야기를 시작해보세요.</p>
+  <div class="prologues">
+    <article class="card prologue">
+      <h3>꒰১ 계약해줘! ໒꒱</h3>
+      <p>일상을 살던 당신의 앞으로 귀여운 인상의 남자가 나타났다. 당신에게 마법전사가 되어달라고 부탁하는데...</p>
+    </article>
+    <article class="card prologue">
+      <h3>꒰১ 출동해줘! ໒꒱</h3>
+      <p>이미 마스코트 중 누군가와 계약을 한 당신. 마법전사로서 출동하기 직전의 상황이다.</p>
+    </article>
+    <article class="card prologue">
+      <h3>꒰১ 자유+이미지 ໒꒱</h3>
+      <p>정해진 시작 없이 자유롭게 써나가는 당신만의 이야기.</p>
+    </article>
+  </div>
+</section>
+
+<section id="hud">
+  <h2 class="section-title">HUD 설명</h2>
+  <p class="section-lead">현재 시간과 상황, 계약 상태를 한눈에 확인할 수 있어요.</p>
+  <div class="hud">
+    <div class="pink">✧ 0T ── 날짜 시간 ◇</div>
+    <div><span class="mint">LOC≫</span> 장소 · 날씨</div>
+    <div><span class="mint">SIT≫</span> 현재상황요약</div>
+    <div><span class="mint">INF≫</span> 성별 · 마스코트 · 계약장신구 · 마법전사의상</div>
+    <div class="pink">✧ ───</div>
+  </div>
+  <div class="note">
+    아직 마스코트와 계약하기 전인 <b>꒰১ 계약해줘! ໒꒱</b> 프롤로그에서는 마스코트·계약장신구·마법전사의상이 표기되지 않는 것이 정상입니다.
+    계약 진행 후 완전히 표기됩니다. 계약 후에도 표기가 안 될 경우 <b>/출력오류</b> 명령어를 사용해주세요.
+  </div>
+  <div class="note mint">
+    마법전사의상은 유저노트에 먼저 적어두고, 마스코트와 계약장신구는 RP 진행 후 유저노트에 적어두는 것을 추천합니다.
+    날짜·시간 옆 <b>◇는 일반적인 상황, ◆는 캐릭터와 뜨겁고 두근두근한 18 상황</b>을 의미합니다. 변하지 않을 경우 수기로 바꿔주세요.
+  </div>
+</section>
+
+<section id="commands">
+  <h2 class="section-title">단축어</h2>
+  <p class="section-lead">RP 진행 중 필요한 기능을 빠르게 호출할 수 있어요.</p>
+  <div class="commands">
+    <article class="command"><code>/출동이다</code><p>마법전사로서 출동할 일이 생깁니다. 계약 후 사용을 권장합니다.</p></article>
+    <article class="command"><code>/커뮤니티</code><p>현재 상황에 대한 커뮤니티 반응을 출력합니다.</p></article>
+    <article class="command"><code>/요약</code><p>현재까지의 RP 내용을 간단하게 요약합니다. 20턴마다 사용을 추천합니다.</p></article>
+    <article class="command"><code>/사건</code><p>새로운 사건을 발생시킵니다. 해프닝·갈등·럭키 중 원하는 유형을 적어주세요.</p></article>
+    <article class="command"><code>/사칭금지</code><p>유저 사칭이 심할 때 사용합니다. 가능하다면 이전 사칭 부분을 직접 삭제하는 것이 도움이 됩니다.</p></article>
+    <article class="command"><code>/출력오류</code><p>RP 중 발생한 거의 모든 오류에 사용할 수 있습니다. 가능하다면 오류 증상도 함께 적어주세요.</p></article>
+    <article class="command"><code>/이미지디버그</code><p>이미지 출력 관련 오류가 있을 때 사용합니다. 오류 증상도 함께 적어주세요.</p></article>
+    <article class="command"><code>/머리깡</code><p>캐릭터가 캐붕난 것 같을 때 사용합니다.</p></article>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  ✦ 나와 계약해서 마법전사가 되어줘! ✦<br>
+  <span>빛과 어둠의 유치한 계약자 모집 전쟁</span>
+</footer>
+
+<script>
+const characters = [
+  {
+    name:"루루", type:"빛", mbti:"ENFP · 7w6", align:"혼돈 선",
+    human:"images/1.png", mascot:"images/2.png",
+    desc:"밝고 순수한 천연 타입. 좋은 생각은 즉시 실행하고 쉽게 포기하지 않는다.",
+    outfit:"복실한 노란 가디건 + 흰 티셔츠 + 청바지",
+    like:"달 구경 · 단음식, 특히 마카롱",
+    dislike:"무시 · 심한 잔소리",
+    feature:"자기 손을 만지작거림 · 진심 어린 호소로 영업"
+  },
+  {
+    name:"세른", type:"빛", mbti:"ISTJ · 1w9", align:"질서 선",
+    human:"images/3.png", mascot:"images/4.png",
+    desc:"냉정하고 현실적이며 잔소리가 많다. 사고가 나면 한숨 쉬며 수습한다.",
+    outfit:"셔츠 + 슬랙스 + 조끼 + 넥타이",
+    like:"정리 · 계획 · 효율 · 씁쓸한 맛",
+    dislike:"무계획 · 감정적 결정 · 계약서 대충 읽기",
+    feature:"안경을 올림 · 조건과 복지를 항목별로 정리해 영업"
+  },
+  {
+    name:"플레", type:"빛", mbti:"ENTP · 7w8", align:"혼돈 중립",
+    human:"images/5.png", mascot:"images/6.png",
+    desc:"능글맞고 장난스러운 나르시스트. 상대 반응에 따라 플러팅 수위를 조절한다.",
+    outfit:"셔츠 단추 1~2개 풀음 + 로즈골드 드롭 귀걸이",
+    like:"예쁜 것 · 칭찬 · 관심 · 꿀이 들어간 음식",
+    dislike:"무관심 · 재미없는 사람",
+    feature:"머리카락을 만짐 · 미모와 플러팅으로 영업"
+  },
+  {
+    name:"피코", type:"빛", mbti:"ESFP · 7w6", align:"혼돈 선",
+    human:"images/7.png", mascot:"images/8.png",
+    desc:"수다쟁이이며 행동이 생각보다 빠르다. 허풍과 즉흥적인 거짓말을 자연스럽게 한다.",
+    outfit:"흰 테크웨어 민소매 후드티 + 카고바지",
+    like:"재미 · 칭찬 · 새로운 경험 · 자극적인 음식",
+    dislike:"지루한 설명 · 가만히 있기 · 무거운 분위기",
+    feature:"허풍과 거짓말 · 안대는 패션용 · 즉흥적인 말빨 영업"
+  },
+  {
+    name:"모모", type:"빛", mbti:"ISFJ · 2w1", align:"중립 선",
+    human:"images/9.png", mascot:"images/10.png",
+    desc:"온화하고 배려심 깊으며 자연스럽게 챙길 일을 찾는다. 장소를 가리지 않고 잠깐씩 잔다.",
+    outfit:"니트 · 터틀넥 등 포근한 오버핏 소재",
+    like:"편안한 시간 · 따뜻하고 부드러운 음식 · 낮잠",
+    dislike:"다툼 · 무리 · 굶는 것 · 잠을 방해받는 것",
+    feature:"졸기 · 보호자 모드로 영업 · 마스코트 몸의 꽃은 마법꽃"
+  },
+  {
+    name:"묵현", type:"어둠", mbti:"INFJ · 5w4", align:"중립",
+    human:"images/11.png", mascot:"images/12.png",
+    desc:"냉소적이고 시니컬하며 사람을 관찰해 핵심을 찌른다. 먼저 지켜보며 섣불리 위로하지 않는다.",
+    outfit:"허리를 묶은 검은 트렌치코트 + 검은 장갑 + 워커",
+    like:"조용한 장소 · 솔직한 사람 · 혼자 있는 시간 · 커피 · 고기",
+    dislike:"시끄러운 장소",
+    feature:"남을 빤히 바라봄 · 반짝이는 것을 보면 눈이 감 · 경쟁사 비방"
+  }
+];
+
+const list = document.getElementById("characterList");
+
+function renderCharacters(){
+  list.innerHTML = characters.map((c,i)=>`
+    <article class="card char-card" data-char="${["lulu","sern","ple","pico","momo","mukhyun"][i]}">
+      <div class="switcher">
+        <button class="active" data-char="${i}" data-type="human">HUMAN</button>
+        <button data-char="${i}" data-type="mascot">MASCOT</button>
+      </div>
+      <div class="char-top">
+        <img class="char-image" id="char-img-${i}" src="${c.human}" alt="${c.name} 인간형">
+      </div>
+      <div class="char-body">
+        <h3 class="char-name">${c.name}</h3>
+        <div class="tags">
+          <span class="tag ${c.type==="어둠"?"pink":""}">${c.type}</span>
+          <span class="character-tag">${c.mbti}</span>
+          <span class="character-tag">${c.align}</span>
+        </div>
+        <p class="char-desc">${c.desc}</p>
+        <div class="details">
+          <div class="detail-row"><b>의상</b><span>${c.outfit}</span></div>
+          <div class="detail-row"><b>호</b><span>${c.like}</span></div>
+          <div class="detail-row"><b>불호</b><span>${c.dislike}</span></div>
+          <div class="detail-row"><b>특징</b><span>${c.feature}</span></div>
+        </div>
+      </div>
+    </article>
+  `).join("");
+
+  document.querySelectorAll(".switcher button").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      const i=Number(btn.dataset.char);
+      const type=btn.dataset.type;
+      const c=characters[i];
+      const img=document.getElementById(`char-img-${i}`);
+      img.src=type==="human"?c.human:c.mascot;
+      img.alt=`${c.name} ${type==="human"?"인간형":"마스코트형"}`;
+      btn.parentElement.querySelectorAll("button").forEach(b=>b.classList.remove("active"));
+      btn.classList.add("active");
+    });
+  });
+}
+renderCharacters();
+</script>
+
+<script>
+document.querySelectorAll('.char-card').forEach(card => {
+  const meta = card.querySelector('.character-meta, .character-tags');
+  if (meta) {
+    meta.classList.add('character-tags');
+    meta.querySelectorAll('span, b, strong, em').forEach(el => el.classList.add('character-tag'));
+  }
+});
+</script>
+
+</body>
+</html>
